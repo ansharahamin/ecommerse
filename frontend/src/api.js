@@ -1,5 +1,9 @@
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.PROD ? 'https://backend-ivory-meadowstone-6558.fly.dev' : '')
+
 async function request(path, options = {}) {
-  const response = await fetch(`/api${path}`, {
+  const response = await fetch(`${API_BASE_URL}/api${path}`, {
     credentials: 'include',
     ...options,
     headers: {
