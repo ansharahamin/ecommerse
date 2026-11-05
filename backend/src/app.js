@@ -3,10 +3,11 @@ import authRoutes from './routes/auth.routes.js'
 import productRoutes from './routes/product.routes.js'
 import cartRoutes from './routes/cart.routes.js'
 import cookieParser from "cookie-parser";
+import db from './db/db.js'
 const app = express()
 
 const allowedOrigins = new Set(
-    (process.env.FRONTEND_ORIGINS || 'https://ecommerse-blond.vercel.app')
+    (process.env.FRONTEND_ORIGINS || 'https://kindred-ecommerce.vercel.app')
         .split(',')
         .map((origin) => origin.trim())
         .filter(Boolean)
@@ -38,6 +39,15 @@ app.use((req, res, next) => {
 
 app.use(express.json())
 app.use(cookieParser())
+app.use(async (req, res, next) => {
+    try {
+        await db()
+        next()
+    } catch (error) {
+        console.error('Database connection failed', error)
+        res.status(503).json({ message: 'Database unavailable' })
+    }
+})
 app.use('/api/auth',authRoutes)
 app.use('/api/product',productRoutes)
 app.use('/api/cart',cartRoutes)

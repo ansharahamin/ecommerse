@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://backend-ivory-meadowstone-6558.fly.dev/api/:path*"
+      "destination": "https://ecommerse-pocg.vercel.app/api/:path*"
     }
   ]
 }

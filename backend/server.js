@@ -1,14 +1,14 @@
 import app from "./src/app.js"
 import db from './src/db/db.js'
-import express from "express";
-const app = express();
-const PORT = 3000
-db()
-// ... tumhare middleware, routes, DB connection ...
+const PORT = Number(process.env.PORT) || 3000
 
 if (!process.env.VERCEL) {
-  const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => console.log(`Server running on ${PORT}`));
+  db()
+    .then(() => app.listen(PORT, () => console.log(`Server running on ${PORT}`)))
+    .catch((error) => {
+      console.error('Failed to connect to the database', error)
+      process.exitCode = 1
+    })
 }
 
 
